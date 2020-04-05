@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class InputForm extends Component {
   	state = {
@@ -11,19 +12,40 @@ class InputForm extends Component {
         	text: text,
         }))
     }
-	
+
+	handleSubmit = (event,username,text) => {
+      	event.preventDefault()
+    	this.props.addMessage(username,text)
+      	this.clearInput()
+    }
+
+	clearInput = () => {
+    	this.setState({
+        	text: '',
+    })}
+
 	isDisabled = () => {
-    return false;
-  };
+      	const { text } = this.state
+        if( !text ) {
+        	return true
+        }
+      	else {
+        	return false
+        }
+  	}
 	render(){
+      	const { text } = this.state
+		const { username } = this.props
     	return(
         	<div>
-              <form className="input-group">
+              <form 
+            	onSubmit={(event) => this.handleSubmit(event,username,text)} 
+            	className="input-group">
                 <input 
              		type="text" 
              		className="form-control" 
              		placeholder="Enter your message..." 
-             		value = {this.state.value}
+             		value = {this.state.text}
             		onChange={(event) => this.handleChange(event)}
              	/>
                 <div className="input-group-append">
@@ -36,6 +58,10 @@ class InputForm extends Component {
         
         )
     }
+}
+InputForm.propTypes = {
+  	addMessage: PropTypes.func.isRequired,
+  	username: PropTypes.string.isRequired,
 }
 
 export default InputForm
