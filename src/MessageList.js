@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const MessageList = (props) => {
 		const { username, messages } = props
@@ -16,6 +17,10 @@ const MessageList = (props) => {
               ))}
           	</ul>
       )
+}
+MessageList.propTypes = {
+  	username: PropTypes.string.isRequired,
+  	messages: PropTypes.array.isRequired
 }
 
 export default MessageList
